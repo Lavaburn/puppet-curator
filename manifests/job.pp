@@ -13,13 +13,14 @@ define curator::job (
   String $month    = '*',
   String $monthday = '*',
   String $user     = $::curator::user_name,
+  String $command  = '$(which curator)',
 ) {
   require curator
   require curator::config
 
   cron { "curator_${name}":
     ensure   => $ensure,
-    command  => "$(which curator) ${::curator::config_path}/action_${action}.yml> /dev/null 2>&1",
+    command  => "${command} ${::curator::config_path}/action_${action}.yml> /dev/null 2>&1",
     hour     => $hour,
     minute   => $minute,
     month    => $month,
